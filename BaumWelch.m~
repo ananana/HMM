@@ -1,0 +1,19 @@
+function [ a, miu, sigma, c ] = BaumWelch( a, miu, sigma, c, pi, obs )
+iterations = 10
+for it=1:iterations
+	% b
+	b = b_cont( obs, pi, a, miu, sigma, c );
+    % alfa
+	alfa = alfa(obs, pi, a, miu, sigma, c, b);
+    % beta
+	beta = 
+    % xi
+    % gama
+    % parametrii: a, miu, sigma, c
+    % Q pt control - tre sa creasca (o sa fie negative)
+    %alfa = alfa (obs, pi, a, miu, sigma, c);
+    
+end
+
+end
+
