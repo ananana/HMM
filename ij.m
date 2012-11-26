@@ -9,6 +9,9 @@ function[i, j] = ij (h_block, v_block, h_index, v_index, v_max, h_max)
 	% v_max - size of vertical blocks
 	% h_max - size of horizontal blocks
 
+	i = v_max * (v_block - 1) + v_index;
+	j = h_max * (h_block - 1) + h_index;
+
 	% USE:
 	% for sigmas: v_max = h_max = D (dimension of random variable)
 	%			  h_block = state
@@ -35,5 +38,3 @@ function[i, j] = ij (h_block, v_block, h_index, v_index, v_max, h_max)
 	%		  		   h_index = 1 (length of block is 1, so irrelevant) ??
 
 
-	i = v_max * (v_block - 1) + v_index;
-	j = h_max * (h_block - 1) + h_index;
