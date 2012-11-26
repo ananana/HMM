@@ -1,5 +1,5 @@
 function [ a, miu, sigmas, c ] = BaumWelch( a, miu, sigma, c, pi, obs )
-    iterations = 1;
+    iterations = 10;
 
     N = length(pi); % nr of states
     M = size(c,2); % nr of mixing components
@@ -23,7 +23,7 @@ function [ a, miu, sigmas, c ] = BaumWelch( a, miu, sigma, c, pi, obs )
     	% b
     	b = b_cont( obs, pi, a, miu, sigma, c );
         % alfa
-    	alfa = alfa(obs, pi, a, miu, sigma, c, b );
+    	alfa = alfa(obs, pi, a, miu, sigma, c, b ); % must redo with sigmas instead
         % beta
     	beta = beta( obs, pi, a, miu, sigma, c, b );
         % xi
@@ -101,9 +101,10 @@ function [ a, miu, sigmas, c ] = BaumWelch( a, miu, sigma, c, pi, obs )
         % Qa = zeros(N, N, T);
         for i = 1:N
             for j = 1:N
-                Qa(i, j, :) = sum(gama(i, j, :) * log(a(i, j)));
+                Qam(i, j, :) = sum(gama(i, j, :) * log(a(i, j)));
             end
         end
+        Qa = sum(sum(Qam(:,:)));
 
         % Qb has the format of xi
         b_c = b_cont_comp( obs, pi, a, miu, sigma, c ); % compute it once and use it for xi as well
@@ -111,28 +112,29 @@ function [ a, miu, sigmas, c ] = BaumWelch( a, miu, sigma, c, pi, obs )
             for k = 1:M
                 [i_xi, j_xi] = ij(t, s, k, 1, 1, M);
                 [i_b, j_b] = ij(t, s, 1, k, 1, M); % same??
-                Qb(i_xi, :) = sum(xi(i_xi) * log(b_c(i_b, :)));
+                Qbm(i_xi, :) = sum(xi(i_xi) * log(b_c(i_b, :)));
             end
         end
+        Qb = sum(sum(Qbm(:,:)));
     
         % Qc has the format of xi
         for s = 1:N
             for k = 1:M
                 [i_xi, j_xi] = ij(t, s, k, 1, 1, M);
-                Qc(i_xi, :) = sum(xi(i_xi) * log(c(s, k)));
+                Qcm(i_xi, :) = sum(xi(i_xi) * log(c(s, k)));
             end
         end
+        Qc = sum(sum(Qcm(:,:)));
+
+        Q = Qa + Qb + Qc
+        it
+        Qv = [Qv Q]
+
+        %plot(1:iterations, Qv);
+        hold on;
     end
 
-    Q = Qa + Qb + Qc;
-
-    Qv = [Qv Q];
-
-    %plot(iterations, Qv);
-    %hold on;
-    end
-
-    %hold off;
+    hold off;
 
 end
 
