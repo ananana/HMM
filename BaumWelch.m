@@ -1,5 +1,5 @@
 function [ a, miu, sigmas, c ] = BaumWelch( a, miu, sigma, c, pi, obs )
-    iterations = 1;
+    iterations = 10;
 
     N = length(pi); % nr of states
     M = size(c,2); % nr of mixing components
@@ -10,7 +10,7 @@ function [ a, miu, sigmas, c ] = BaumWelch( a, miu, sigma, c, pi, obs )
 
     % multiplicate sigmas (initially they are the same for all states and components)
     % sigmas = [[sigma] x N x M] => N by M sigma
-    sigmas = sigmas(sigma, N, M, D);
+    sigmas = sigma_to_sigmas(sigma, N, M, D);
     % b
     b = b_cont( obs, miu, sigmas, c );
     % b component-wise

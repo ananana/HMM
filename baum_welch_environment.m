@@ -1,5 +1,5 @@
 sigma = [4 2; 2 3]
-sigmas = sigmas(sigma, 3, 2, size(sigma));
+sigmas = sigma_to_sigmas(sigma, 3, 2, size(sigma));
 
 c = [0.2 0.8; 0.5 0.5; 0.7 0.3]
 miu = [2 -1 1 0 0  2;       1  1 0 1 2 -2]

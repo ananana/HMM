@@ -1,5 +1,5 @@
-function [ sigmas ] = sigmas(sigma, N, M, D)
-	sigmas = zeros(N*D, M*D);
+function [ sigmas ] = sigma_to_sigmas(sigma, N, M, D)
+	sigmas = zeros(M*D, N*D);
     for s = 1:N
         for k = 1:M
             [i_s1, j_s1] = ij(s, k, 1, 1, D, D);
