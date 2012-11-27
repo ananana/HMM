@@ -1,35 +1,30 @@
 function [ a, miu, sigmas, c ] = BaumWelch( a, miu, sigma, c, pi, obs )
-    iterations = 10;
+    iterations = 1;
 
     N = length(pi); % nr of states
     M = size(c,2); % nr of mixing components
-    D = size(sigma); % dimension of multivariate normal variable
+    D = size(miu, 1); % dimension of multivariate normal variable
     T = size(obs); % number of observations
 
     Qv = [];
 
     % multiplicate sigmas (initially they are the same for all states and components)
-    % sigmas = [[sigma] x N x k] => N by k sigma
-    for s = 1:N
-        for k = 1:M
-            [i1, j1] = ij(s, k, 1, 1, D, D);
-            [i2, j2] = ij(s, k, D, D, D, D);
-            % sigmas((k - 1) * D  + 1: k * D, (s - 1) * D + 1 : s * D) = sigma;
-            sigmas(i1:i2, j1:j2) = sigma;
-        end
-    end
+    % sigmas = [[sigma] x N x M] => N by M sigma
+    sigmas = sigmas(sigma, N, M, D);
 
     for it=1:iterations
     	% b
-    	b = b_cont( obs, pi, a, miu, sigma, c );
+    	b = b_cont( obs, miu, sigmas, c );
+        % b component-wise
+        b_c = b_cont_comp( obs, miu, sigmas, c );
         % alfa
-    	alfa = alfa(obs, pi, a, miu, sigma, c, b ); % must redo with sigmas instead
+    	alfa = alfa(obs, pi, a, b );
         % beta
-    	beta = beta( obs, pi, a, miu, sigma, c, b );
+    	beta = beta( obs, a, b );
         % xi
-        xi = xi( obs, pi, a, miu, sigma, c, alfa, beta );
+        xi = xi( obs, pi, a, miu, sigmas, b_c, c, alfa, beta );
         % gama
-        gama = gama(obs, pi, a, miu, sigma, b, c, alfa, beta);
+        gama = gama(obs, a, b, alfa, beta);
         % parametrii: a, miu, sigma, c
 
         % IN PROGRESS: check all indeces again
@@ -59,7 +54,7 @@ function [ a, miu, sigmas, c ] = BaumWelch( a, miu, sigma, c, pi, obs )
         miu1 = zeros(2, N*M);
         for s = 1:N
             for k = 1:M
-                % miu((s - 1) * M + k, :) = zeros(1, N*M);
+                 miu((s - 1) * M + k, :) = zeros(1, N*M);
                 [_, j_miu] = ij(s, 1, k, 1, D, M);
                 for t = 1:T
                     [i_xi, j_xi] = ij(t, s, k, 1, 1, M);
@@ -107,7 +102,7 @@ function [ a, miu, sigmas, c ] = BaumWelch( a, miu, sigma, c, pi, obs )
         Qa = sum(sum(Qam(:,:)));
 
         % Qb has the format of xi
-        b_c = b_cont_comp( obs, pi, a, miu, sigma, c ); % compute it once and use it for xi as well
+        
         for s = 1:N
             for k = 1:M
                 [i_xi, j_xi] = ij(t, s, k, 1, 1, M);
@@ -130,11 +125,11 @@ function [ a, miu, sigmas, c ] = BaumWelch( a, miu, sigma, c, pi, obs )
         it
         Qv = [Qv Q]
 
-        %plot(1:iterations, Qv);
-        hold on;
     end
-
-    hold off;
+    
+    %plot(1:iterations, Qv);
+    %hold on;
+    %hold off;
 
 end
 

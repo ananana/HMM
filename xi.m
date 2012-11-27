@@ -1,4 +1,4 @@
-function [ xi ] = xi( obs, pi, a, miu, sigma, c, alfa, beta )
+function [ xi ] = xi( obs, pi, a, miu, sigmas, b, c, alfa, beta )
 % xi(i, t) - probability that at moment t we are in state s with
 % mixing component k, given the entire sequence of observations obs(1...T)
 % i = s * k
@@ -20,10 +20,9 @@ function [ xi ] = xi( obs, pi, a, miu, sigma, c, alfa, beta )
 T = length(obs); % nr of observations
 N = length(pi); % nr of states
 M = size(c,2); % number of mixture components
-n = size(sigma); % dimension of multivariate normal distributions
 
 % density on each mixture component
-b = b_cont_comp(obs, pi, a, miu, sigma, c);
+% b = b_cont_comp( obs, miu, sigmas, c );
 
 % pt t = 1: fol pi
 for s = 1:N

@@ -1,12 +1,10 @@
-function [ gama ] = gama(obs, pi, a, miu, sigma, b, c, alfa, beta)
+function [ gama ] = gama(obs, a, b, alfa, beta)
 % gama(i, j, t) - probability that at moment t
 % there is a transition between state i and j
 % given the set of observations obs(t)
 	 
 	T = length(obs); % nr of observations
-	N = length(pi); % nr of states
-	M = size(c,2); % number of mixture components
-	n = size(sigma); % dimension of multivariate normal distributions
+	N = size(a, 1); % nr of states
 	
 	gama = zeros(N, N, T);
 
@@ -14,7 +12,8 @@ function [ gama ] = gama(obs, pi, a, miu, sigma, b, c, alfa, beta)
 		for j = 1:N
 			gama(i, j, 1) = 1;   % ???
 			for t = 2:T
-				gama(i,j,t) = (alfa(t-1, i) * a(i, j) * b(j, t) * beta(t, j))								/ sum(alfa(T, :));
+				gama(i,j,t) = (alfa(t-1, i) * a(i, j) * b(j, t) * beta(t, j)) /...
+				 sum(alfa(T, :));
 			end
 		end
 	end
