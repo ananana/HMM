@@ -17,18 +17,15 @@ function [ a, miu, sigmas, c ] = BaumWelch( a, miu, sigma, c, pi, obs )
     b_c = b_cont_comp( obs, miu, sigmas, c );
 
     for it=1:iterations
-        a
-        b
-        obs
-        pi
+        it
         % alfa
-    	alfa = alfa(obs, pi, a, b );
+        alfa = alfaf(obs, pi, a, b );
         % beta
-    	beta = beta( obs, a, b );
+    	beta = betaf( obs, a, b );
         % xi
-        xi = xi( obs, pi, a, miu, sigmas, b_c, c, alfa, beta );
+        xi = xif( obs, pi, a, miu, sigmas, b_c, c, alfa, beta );
         % gama
-        gama = gama(obs, a, b, alfa, beta);
+        gama = gamaf(obs, a, b, alfa, beta);
         % parametrii: a, miu, sigma, c
 
         % IN PROGRESS: check all indeces again
@@ -39,6 +36,7 @@ function [ a, miu, sigmas, c ] = BaumWelch( a, miu, sigma, c, pi, obs )
                 a(i, j) = sum(gama(i, j, :)) / sum(sum(gama(i, :, :)));
             end
         end
+        a
 
         % c*
         for j = 1:N
@@ -126,7 +124,6 @@ function [ a, miu, sigmas, c ] = BaumWelch( a, miu, sigma, c, pi, obs )
         Qc = sum(sum(Qcm(:,:)));
 
         Q = Qa + Qb + Qc
-        it
         Qv = [Qv Q]
 
     end

@@ -6,5 +6,5 @@ miu = [2 -1 1 0 0  2;       1  1 0 1 2 -2]
 [a, pi] = random_model(2, 3)
 obs = generate_obs_cont(10, pi, a, miu, sigma, c)
 b = b_cont( obs, miu, sigmas, c )
-alfa = alfa( obs, pi, a, b )
-beta = beta( obs, a, b )
+alfa = alfaf( obs, pi, a, b )
+beta = betaf( obs, a, b )

@@ -1,4 +1,4 @@
-function [ alfa ] = alfa( obs, pi, a, b )
+function [ alfa ] = alfaf( obs, pi, a, b )
 % alfa(t, i) = the probability that at time t we are in state i
 % and have generated observations x_0...x_t
 T = length(obs);
