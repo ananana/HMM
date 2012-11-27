@@ -11,12 +11,16 @@ function [ a, miu, sigmas, c ] = BaumWelch( a, miu, sigma, c, pi, obs )
     % multiplicate sigmas (initially they are the same for all states and components)
     % sigmas = [[sigma] x N x M] => N by M sigma
     sigmas = sigmas(sigma, N, M, D);
+    % b
+    b = b_cont( obs, miu, sigmas, c );
+    % b component-wise
+    b_c = b_cont_comp( obs, miu, sigmas, c );
 
     for it=1:iterations
-    	% b
-    	b = b_cont( obs, miu, sigmas, c );
-        % b component-wise
-        b_c = b_cont_comp( obs, miu, sigmas, c );
+        a
+        b
+        obs
+        pi
         % alfa
     	alfa = alfa(obs, pi, a, b );
         % beta
