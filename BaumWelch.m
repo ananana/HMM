@@ -1,4 +1,4 @@
-function [ a, miu, sigmas, c ] = BaumWelch( a, miu, sigma, c, pi, obs )
+function [ a, miu, sigmas, c, Qv ] = BaumWelch( a, miu, sigma, c, pi, obs )
     iterations = 10;
 
     N = length(pi); % nr of states
@@ -9,7 +9,7 @@ function [ a, miu, sigmas, c ] = BaumWelch( a, miu, sigma, c, pi, obs )
     Qv = [];
 
     % multiplicate sigmas (initially they are the same for all states and components)
-    % sigmas = [[sigma] x N x M] => N by M sigma
+    % sigmas = [[sigma] x M x N] => M by N sigma
     sigmas = sigma_to_sigmas(sigma, N, M, D);
     % b
     b = b_cont( obs, miu, sigmas, c );
@@ -17,7 +17,6 @@ function [ a, miu, sigmas, c ] = BaumWelch( a, miu, sigma, c, pi, obs )
     b_c = b_cont_comp( obs, miu, sigmas, c );
 
     for it=1:iterations
-        it
         % alfa
         alfa = alfaf(obs, pi, a, b );
         % beta
@@ -36,7 +35,9 @@ function [ a, miu, sigmas, c ] = BaumWelch( a, miu, sigma, c, pi, obs )
                 a(i, j) = sum(gama(i, j, :)) / sum(sum(gama(i, :, :)));
             end
         end
-        a
+        % question: what about pi? 
+        % daca in rest il folosim ca parte din a, cu o noua stare initiala.
+        % aici ar trebui si el actualizat, nu?
 
         % c*
         for j = 1:N
@@ -124,13 +125,13 @@ function [ a, miu, sigmas, c ] = BaumWelch( a, miu, sigma, c, pi, obs )
         Qc = sum(sum(Qcm(:,:)));
 
         Q = Qa + Qb + Qc
-        Qv = [Qv Q]
+        Qv = [Qv Q];
 
     end
     
-    %plot(1:iterations, Qv);
-    %hold on;
-    %hold off;
+    plot(1:iterations, Qv);
+    hold on;
+    hold off;
 
 end
 

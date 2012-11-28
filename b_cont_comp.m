@@ -8,6 +8,7 @@ function [ b_c ] = b_cont_comp( obs, miu, sigmas, c )
 %		(M = nr of components)
 % sigma - covariance matrix, same for everything (every state and every component)
 %			dimensions = nxn
+%			sigmas - M x N sigma
 
 % hope it's ok??
 

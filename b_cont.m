@@ -7,7 +7,7 @@ function [ b ] = b_cont( obs, miu, sigmas, c )
 %		miu(d, M*(s-1) + k) - mean for dimension j of component k of density of state i
 %		(M = nr of components)
 % sigmas - covariance matrix, initially same for everything (every state and every component)
-%		   sigmas = [[sigma] x N x M] => N by M sigma (DxD)
+%		   sigmas = [[sigma] x M x N] => M by N sigma (DxD)
 
 % TODO: do this by calling b_cont_comp; cause this way you compute stuff twice
 
