@@ -30,6 +30,7 @@ function [ a, miu, sigmas, c, Qv ] = BaumWelch( a, miu, sigma, c, pi, obs )
         % IN PROGRESS: check all indeces again
 
         % a*
+        % ? tends to get real uniform
         for i = 1:N
             for j = 1:N
                 a(i, j) = sum(gama(i, j, :)) / sum(sum(gama(i, :, :)));
@@ -101,7 +102,7 @@ function [ a, miu, sigmas, c, Qv ] = BaumWelch( a, miu, sigma, c, pi, obs )
         % Qa = zeros(N, N, T);
         for i = 1:N
             for j = 1:N
-                Qam(i, j, :) = sum(gama(i, j, :) * log(a(i, j)));
+                Qam(i, j, :) = sum(gama(i, j, :) * log(a(i, j))); % this is ln
             end
         end
         Qa = sum(sum(Qam(:,:)));
