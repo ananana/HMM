@@ -1,5 +1,5 @@
 function [ a, miu, sigmas, c, Qv ] = BaumWelch( a, miu, sigma, c, pi, obs )
-    iterations = 10;
+    iterations = 25;
 
     N = length(pi); % nr of states
     M = size(c,2); % nr of mixing components
@@ -20,11 +20,11 @@ function [ a, miu, sigmas, c, Qv ] = BaumWelch( a, miu, sigma, c, pi, obs )
         % alfa
         alfa = alfaf(obs, pi, a, b );
         % beta
-    	beta = betaf( obs, a, b );
+    	Beta = betaf( obs, a, b );
         % xi
-        xi = xif( obs, pi, a, miu, sigmas, b_c, c, alfa, beta );
+        xi = xif( obs, pi, a, miu, sigmas, b_c, c, alfa, Beta );
         % gama
-        gama = gamaf(obs, a, b, alfa, beta);
+        gama = gamaf(obs, a, b, alfa, Beta);
         % parametrii: a, miu, sigma, c
 
         % IN PROGRESS: check all indeces again
@@ -35,6 +35,7 @@ function [ a, miu, sigmas, c, Qv ] = BaumWelch( a, miu, sigma, c, pi, obs )
                 a(i, j) = sum(gama(i, j, :)) / sum(sum(gama(i, :, :)));
             end
         end
+        
         % question: what about pi? 
         % daca in rest il folosim ca parte din a, cu o noua stare initiala.
         % aici ar trebui si el actualizat, nu?
@@ -54,6 +55,7 @@ function [ a, miu, sigmas, c, Qv ] = BaumWelch( a, miu, sigma, c, pi, obs )
 
         % miu*
         % ?? seems ok, but values are not so close to the original ones, maybe problem?
+        % tinde sa dea valori asemanatoare pt toate mediile
         miu1 = zeros(2, N*M);
         for s = 1:N
             for k = 1:M
@@ -123,8 +125,7 @@ function [ a, miu, sigmas, c, Qv ] = BaumWelch( a, miu, sigma, c, pi, obs )
             end
         end
         Qc = sum(sum(Qcm(:,:)));
-
-        Q = Qa + Qb + Qc
+        Q = Qa + Qb + Qc;
         Qv = [Qv Q];
 
     end

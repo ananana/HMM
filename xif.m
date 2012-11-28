@@ -1,4 +1,4 @@
-function [ xi ] = xif( obs, pi, a, miu, sigmas, b, c, alfa, beta )
+function [ xi ] = xif( obs, pi, a, miu, sigmas, b, c, alfa, Beta )
 % xi(i, t) - probability that at moment t we are in state s with
 % mixing component k, given the entire sequence of observations obs(1...T)
 % i = s * k
@@ -27,7 +27,7 @@ M = size(c,2); % number of mixture components
 % pt t = 1: fol pi
 for s = 1:N
 	for k = 1:M
-		xi(s * k, 1) = pi(s) * c(s, k) * b((s -1 ) * M + k, 1) * beta(1, s)...
+		xi(s * k, 1) = pi(s) * c(s, k) * b((s -1 ) * M + k, 1) * Beta(1, s)...
 		 / sum(alfa(T, :)); % b??
 	end
 end
@@ -38,7 +38,7 @@ for t = 2:T
 	for s = 1:N
 		for k = 1:M
 			xi((s -1 ) * M + k, t) = sum(alfa(t-1, :) .* a(:, s)')...
-			 * c(s, k) * b((s -1 ) * M + k, t) * beta(t, s)...
+			 * c(s, k) * b((s -1 ) * M + k, t) * Beta(t, s)...
 			 / sum(alfa(T,:));
 		end
 	end

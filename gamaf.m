@@ -1,4 +1,4 @@
-function [ gama ] = gamaf(obs, a, b, alfa, beta)
+function [ gama ] = gamaf(obs, a, b, alfa, Beta)
 % gama(i, j, t) - probability that at moment t
 % there is a transition between state i and j
 % given the set of observations obs(t)
@@ -12,7 +12,7 @@ function [ gama ] = gamaf(obs, a, b, alfa, beta)
 		for j = 1:N
 			gama(i, j, 1) = 1;   % ???
 			for t = 2:T
-				gama(i,j,t) = (alfa(t-1, i) * a(i, j) * b(j, t) * beta(t, j)) /...
+				gama(i,j,t) = (alfa(t-1, i) * a(i, j) * b(j, t) * Beta(t, j)) /...
 				 sum(alfa(T, :));
 			end
 		end
