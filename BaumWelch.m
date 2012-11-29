@@ -105,7 +105,7 @@ function [ a, miu, sigmas, c, Qv ] = BaumWelch( a, miu, sigma, c, pi, obs )
                 Qam(i, j, :) = sum(gama(i, j, :) * log(a(i, j))); % this is ln
             end
         end
-        Qa = sum(sum(Qam(:,:)));
+        Qa = sum(sum(Qam));
 
         % Qb has the format of xi
         
@@ -116,7 +116,7 @@ function [ a, miu, sigmas, c, Qv ] = BaumWelch( a, miu, sigma, c, pi, obs )
                 Qbm(i_xi, :) = sum(xi(i_xi) * log(b_c(i_b, :)));
             end
         end
-        Qb = sum(sum(Qbm(:,:)));
+        Qb = sum(Qbm);
     
         % Qc has the format of xi
         for s = 1:N
@@ -125,12 +125,12 @@ function [ a, miu, sigmas, c, Qv ] = BaumWelch( a, miu, sigma, c, pi, obs )
                 Qcm(i_xi, :) = sum(xi(i_xi) * log(c(s, k)));
             end
         end
-        Qc = sum(sum(Qcm(:,:)));
+        Qc = sum(Qcm);
         Q = Qa + Qb + Qc;
         Qv = [Qv Q];
 
     end
-    
+
     plot(1:iterations, Qv);
     hold on;
     hold off;
