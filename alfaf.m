@@ -1,7 +1,7 @@
 function [ alfa ] = alfaf( obs, pi, a, b )
 % alfa(t, i) = the probability that at time t we are in state i
 % and have generated observations x_0...x_t
-T = length(obs);
+T = size(obs, 2);
 N = length(pi);
 %b = zeros(N, T);
 % M = size(c,2);

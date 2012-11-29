@@ -3,7 +3,7 @@ function [ gama ] = gamaf(obs, a, b, alfa, Beta)
 % there is a transition between state i and j
 % given the set of observations obs(t)
 	 
-	T = length(obs); % nr of observations
+	T = size(obs, 2); % nr of observations
 	N = size(a, 1); % nr of states
 	
 	gama = zeros(N, N, T);

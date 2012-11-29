@@ -17,7 +17,7 @@ function [ xi ] = xif( obs, pi, a, miu, sigmas, b, c, alfa, Beta )
 % end
 %
 
-T = length(obs); % nr of observations
+T = size(obs, 2); % nr of observations
 N = length(pi); % nr of states
 M = size(c,2); % number of mixture components
 
@@ -27,7 +27,8 @@ M = size(c,2); % number of mixture components
 % pt t = 1: fol pi
 for s = 1:N
 	for k = 1:M
-		xi(s * k, 1) = pi(s) * c(s, k) * b((s -1 ) * M + k, 1) * Beta(1, s)...
+		[i_xi, j_xi] = ij(1, s, 1, k, 1, M);
+		xi(i_xi, j_xi) = pi(s) * c(s, k) * b(i_xi, j_xi) * Beta(1, s)...
 		 / sum(alfa(T, :)); % b??
 	end
 end
@@ -37,8 +38,9 @@ end
 for t = 2:T
 	for s = 1:N
 		for k = 1:M
-			xi((s -1 ) * M + k, t) = sum(alfa(t-1, :) .* a(:, s)')...
-			 * c(s, k) * b((s -1 ) * M + k, t) * Beta(t, s)...
+			[i_xi, j_xi] = ij(t, s, 1, k, 1, M);
+			xi(i_xi, j_xi) = sum(alfa(t-1, :) .* a(:, s)')...
+			 * c(s, k) * b(i_xi, j_xi) * Beta(t, s)...
 			 / sum(alfa(T,:));
 		end
 	end

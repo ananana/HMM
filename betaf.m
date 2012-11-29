@@ -1,7 +1,7 @@
 function [ Beta ] = betaf( obs, a, b )
 % beta(t, i) - the probability that obs(1...t) were generated given that at time t we are in state i
 
-T = length(obs); % nr of observations
+T = size(obs, 2); % nr of observations
 N = size(a, 1); % nr of states
 
 Beta = zeros(T, N);

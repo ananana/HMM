@@ -11,7 +11,7 @@ function [ b ] = b_cont( obs, miu, sigmas, c )
 
 % TODO: do this by calling b_cont_comp; cause this way you compute stuff twice
 
-T = length(obs); % nr of observations
+T = size(obs, 2); % nr of observations
 N = size(c, 1); % nr of states
 b = zeros(N, T); % b(s, t) - mixed normal density function for state s and time t
 M = size(c,2); % number of mixture components

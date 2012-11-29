@@ -14,7 +14,7 @@ function [ b_c ] = b_cont_comp( obs, miu, sigmas, c )
 
 
 
-	T = length(obs); % nr of observations
+	T = size(obs, 2); % nr of observations
 	N = size(c,1); % nr of states
 	M = size(c,2); % number of mixture components
 	D = size(miu, 1); % dimension of multivariate normal distributions
@@ -23,7 +23,7 @@ function [ b_c ] = b_cont_comp( obs, miu, sigmas, c )
 		for k = 1:M
 			[i_s1, j_s1] = ij(s, k, 1, 1, D, D);
 	        [i_s2, j_s2] = ij(s, k, D, D, D, D);
-	        [_, ind] = ij(s, 1, k, 1, D, M);
+	        [_, ind] = ij(s, 1, k, 1, M, M); % era D h_max??
 	        sigma = sigmas(i_s1:i_s2, j_s1:j_s2);
 		    for t=1:T
 		    	b_c(ind,t) = mult_norm(obs(t), miu(:,ind), sigma); % ??

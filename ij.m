@@ -1,4 +1,4 @@
-function[i, j] = ij (h_block, v_block, h_index, v_index, v_max, h_max)
+function[i, j] = ij (h_block, v_block, h_index, v_index, h_max, v_max)
 	% Calculates indexes for matrices made of smaller blocks 
 	% (instead of spread across more dimensions)
 	%
@@ -17,7 +17,7 @@ function[i, j] = ij (h_block, v_block, h_index, v_index, v_max, h_max)
 	%			  h_block = state
 	%			  v_block = component
 	%			  h_index = v_index = dimension (usually used as block (:,:))
-	% for miu: v_max = D (dimension of random variable)  ??
+	% for miu: v_max = D (dimension of random variable)  ?? / 1
 	%		   h_max = M (number of components)
 	%		   v_block = 1 (only one block vertically always)
 	%		   h_block = state
