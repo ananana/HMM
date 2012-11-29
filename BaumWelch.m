@@ -1,5 +1,5 @@
 function [ a, miu, sigmas, c, Qv ] = BaumWelch( a, miu, sigma, c, pi, obs )
-    iterations = 15;
+    iterations = 25;
 
     N = length(pi); % nr of states
     M = size(c,2); % nr of mixing components
@@ -23,7 +23,7 @@ function [ a, miu, sigmas, c, Qv ] = BaumWelch( a, miu, sigma, c, pi, obs )
     	Beta = betaf( obs, a, b );
         % xi
         xi = xif( obs, pi, a, miu, sigmas, b_c, c, alfa, Beta );
-        % sum(sum(xi)) test ok
+        % sum(sum(xi)) % = T, test ok
         % gama
         gama = gamaf(obs, a, b, alfa, Beta);
         % parametrii: a, miu, sigma, c

@@ -8,8 +8,8 @@ miu = rand(2, 10) * 10;
 [a, pi] = random_model(10, 5);
 
 [a2, pi2] = random_model(10, 5);
-miu2 = ones(2, 10) * 5;
-% miu2 = miu + rand(2, 10) * 3 * (rand() - 2);
+% miu2 = ones(2, 10) * 5;
+miu2 = miu + rand(2, 10) * 4 * (rand() - 2);
 sigma2 = [2 1; 1 3];
 sigmas2 = sigma_to_sigmas(sigma2, 5, 2, 2);
 c2 = [0.3 0.7; 0.3 0.7; 0.5 0.5; 0.4 0.6; 0.6 0.4];
@@ -20,4 +20,4 @@ b = b_cont( obs, miu2, sigmas2, c2 );
 %alfa = alfaf( obs, pi, a, b )
 %Beta = betaf( obs, a, b )
 
-[ a1, miu1, sigmas1, c1, Qv] = BaumWelch(a2, miu2, sigma, c2, pi, obs);
+[ a1, miu1, sigmas1, c1, Qv] = BaumWelch(a2, miu2, sigma2, c2, pi, obs);
