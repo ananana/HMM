@@ -129,7 +129,7 @@ function [ a, miu, sigmas, c, Qv ] = BaumWelch( a, miu, sigma, c, pi, obs )
                 end
             end
         end
-        Qc = sum(sum(Qcm));
+        Qc = sum(sum(Qcm));i
         Q = Qa + Qb + Qc;
         Qv = [Qv Q];
 
