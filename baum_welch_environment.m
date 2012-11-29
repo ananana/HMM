@@ -20,4 +20,4 @@ b = b_cont( obs, miu2, sigmas2, c2 );
 %alfa = alfaf( obs, pi, a, b )
 %Beta = betaf( obs, a, b )
 
-[ a1, miu1, sigmas1, c1, Qv] = BaumWelch(a2, miu2, sigma2, c2, pi, obs);
+% [ a1, miu1, sigmas1, c1, Qv] = BaumWelch(a2, miu2, sigma2, c2, pi, obs);
