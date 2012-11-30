@@ -1,4 +1,4 @@
-function [ a, pi ] = random_model (obs_size, nr_states)
+function [ a, pi ] = random_model (nr_states)
 
 a = [];
 

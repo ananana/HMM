@@ -22,7 +22,7 @@ for s=1:N
         for k = 1:M
         	[i_s1, j_s1] = ij(s, k, 1, 1, D, D);
             [i_s2, j_s2] = ij(s, k, D, D, D, D);
-            [_, j_miu] = ij(s, 1, k, 1, D, M);
+            [_, j_miu] = ij(s, 1, k, 1, M, D);
             sigma = sigmas(i_s1:i_s2, j_s1:j_s2);
 
             b(s,t) = b(s,t) + c(s,k) * mult_norm(obs(t),...

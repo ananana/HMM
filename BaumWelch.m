@@ -1,5 +1,5 @@
 function [ a, miu, sigmas, c, Qv ] = BaumWelch( a, miu, sigma, c, pi, obs )
-    iterations = 25;
+    iterations = 10;
 
     N = length(pi); % nr of states
     M = size(c,2); % nr of mixing components
@@ -58,16 +58,18 @@ function [ a, miu, sigmas, c, Qv ] = BaumWelch( a, miu, sigma, c, pi, obs )
         miu1 = zeros(2, N*M);
         for s = 1:N
             for k = 1:M
-                 miu((s - 1) * M + k, :) = zeros(1, N*M);
-                [_, j_miu] = ij(s, 1, k, 1, D, M);
+                % miu((s - 1) * M + k, :) = zeros(1, N*M);
+                [_, j_miu] = ij(s, 1, k, 1, M, D);
                 for t = 1:T
                     [i_xi, j_xi] = ij(t, s, 1, k, 1, M);
                     %(xi(i_xi, j_xi) * obs(:, t));
                     miu1(:, j_miu) = (miu1(:, j_miu) +...
-                     %(xi((s - 1 ) * M + k, t) * obs(:, t)) / sum(xi((s - 1 ) * M + k, :));
+                     %(xi((s - 1 ) M + k, t) * obs(:, t)) / sum(xi((s - 1 ) * M + k, :));
                      (xi(i_xi, j_xi) * obs(:, t)));
                 end
+                % miu1(:, j_miu);
                 miu1(:, j_miu) = miu1(:, j_miu) / sum(xi(i_xi, :));
+                % sum(xi(i_xi, :));
             end
         end
         miu = miu1; %??
@@ -79,7 +81,7 @@ function [ a, miu, sigmas, c, Qv ] = BaumWelch( a, miu, sigma, c, pi, obs )
                 [i_s1, j_s1] = ij(s, k, 1, 1, D, D);
                 [i_s2, j_s2] = ij(s, k, D, D, D, D);
                 [i_xi, j_xi] = ij(t, s, 1, k, 1, M);
-                [_, j_miu] = ij(s, 1, k, 1, D, M);
+                [_, j_miu] = ij(s, 1, k, 1, M, D);
                 % sigmas((k - 1) * D  + 1: k * D, (s - 1) * D + 1 : s * D) = sigma;
                 for t = 1:T
                     sigmas1(i_s1:i_s2, j_s1:j_s2) = sigmas1(i_s1:i_s2, j_s1:j_s2) +...
@@ -129,13 +131,13 @@ function [ a, miu, sigmas, c, Qv ] = BaumWelch( a, miu, sigma, c, pi, obs )
                 end
             end
         end
-        Qc = sum(sum(Qcm));i
+        Qc = sum(sum(Qcm));
         Q = Qa + Qb + Qc;
         Qv = [Qv Q];
 
     end
 
-   plot(1:iterations, Qv);
+   % plot(1:iterations, Qv);
    
 
 end
