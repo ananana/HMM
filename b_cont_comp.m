@@ -26,7 +26,7 @@ function [ b_c ] = b_cont_comp( obs, miu, sigmas, c )
 	        [aux, ind] = ij(s, 1, k, 1, M, D); % era D h_max??
 	        sigma = sigmas(i_s1:i_s2, j_s1:j_s2);
 		    for t=1:T
-		    	b_c(ind,t) = mult_norm(obs(t), miu(:,ind), sigma); % ??
+		    	b_c(ind,t) = mult_norm(obs(:, t), miu(:,ind), sigma); % ??
 		    end
 		end
 	end
