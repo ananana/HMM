@@ -78,10 +78,11 @@ function [ a, miu, sigmas, c, Qv ] = BaumWelch( a, miu, sigma, c, pi, obs )
 %             for k = 1:M
 %                 [i_s1, j_s1] = ij(s, k, 1, 1, D, D);
 %                 [i_s2, j_s2] = ij(s, k, D, D, D, D);
-%                 [i_xi, j_xi] = ij(t, s, 1, k, 1, M);
+%                 
 %                 [aux, j_miu] = ij(s, 1, k, 1, M, D);
 %                 % sigmas((k - 1) * D  + 1: k * D, (s - 1) * D + 1 : s * D) = sigma;
 %                 for t = 1:T
+%                   [i_xi, j_xi] = ij(t, s, 1, k, 1, M);
 %                     sigmas1(i_s1:i_s2, j_s1:j_s2) = sigmas1(i_s1:i_s2, j_s1:j_s2) +...
 %                      xi(i_xi, t) *...
 %                       (obs(:, t) - miu(:, j_miu)) *...
@@ -122,9 +123,9 @@ function [ a, miu, sigmas, c, Qv ] = BaumWelch( a, miu, sigma, c, pi, obs )
         % Qc has the format of xi
         Qcm = zeros(N*M, T);
         for s = 1:N
-            for k = 1:M
-                [i_xi, j_xi] = ij(t, s, 1, k, 1, M);  % 1 si k erau invers
+            for k = 1:M 
                 for t = 1:T
+                    [i_xi, j_xi] = ij(t, s, 1, k, 1, M);
                     Qcm(i_xi, t) = xi(i_xi, t) * log2(c(s, k));
                 end
             end
