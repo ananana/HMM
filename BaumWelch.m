@@ -44,9 +44,9 @@ function [ a, miu, sigmas, c, Qv ] = BaumWelch( a, miu, sigma, c, pi, obs )
         % c*
         for j = 1:N
             for k = 1:M
-                [i_xi1, _] = ij(1, j, 1, k, 1, M);
-                [i_xi2, _] = ij(1, j, 1, 1, 1, M);
-                [i_xi3, _] = ij(1, j, 1, M, 1, M);
+                [i_xi1, aux] = ij(1, j, 1, k, 1, M);
+                [i_xi2, aux] = ij(1, j, 1, 1, 1, M);
+                [i_xi3, aux] = ij(1, j, 1, M, 1, M);
                 %c(j, k) = sum(xi((j - 1) * M + k, :)) /...
                 %sum(sum(xi((j - 1) * M + 1 : j * M, :)));
                 c(j, k) = sum(xi(i_xi1, :)) /...
@@ -59,13 +59,11 @@ function [ a, miu, sigmas, c, Qv ] = BaumWelch( a, miu, sigma, c, pi, obs )
         for s = 1:N
             for k = 1:M
                 % miu((s - 1) * M + k, :) = zeros(1, N*M);
-                [_, j_miu] = ij(s, 1, k, 1, M, D);
+                [aux, j_miu] = ij(s, 1, k, 1, M, D);
                 for t = 1:T
                     [i_xi, j_xi] = ij(t, s, 1, k, 1, M);
                     %(xi(i_xi, j_xi) * obs(:, t));
-                    miu1(:, j_miu) = (miu1(:, j_miu) +...
-                     %(xi((s - 1 ) M + k, t) * obs(:, t)) / sum(xi((s - 1 ) * M + k, :));
-                     (xi(i_xi, j_xi) * obs(:, t)));
+                      miu1(:, j_miu) = miu1(:, j_miu) + (xi(i_xi, j_xi) * obs(:, t));
                 end
                 % miu1(:, j_miu);
                 miu1(:, j_miu) = miu1(:, j_miu) / sum(xi(i_xi, :));
@@ -74,26 +72,26 @@ function [ a, miu, sigmas, c, Qv ] = BaumWelch( a, miu, sigma, c, pi, obs )
         end
         miu = miu1; %??
 
-        % sigma*
-        sigmas1 = zeros(M*D, N*D);
-        for s = 1:N
-            for k = 1:M
-                [i_s1, j_s1] = ij(s, k, 1, 1, D, D);
-                [i_s2, j_s2] = ij(s, k, D, D, D, D);
-                [i_xi, j_xi] = ij(t, s, 1, k, 1, M);
-                [_, j_miu] = ij(s, 1, k, 1, M, D);
-                % sigmas((k - 1) * D  + 1: k * D, (s - 1) * D + 1 : s * D) = sigma;
-                for t = 1:T
-                    sigmas1(i_s1:i_s2, j_s1:j_s2) = sigmas1(i_s1:i_s2, j_s1:j_s2) +...
-                     xi(i_xi, t) *...
-                      (obs(:, t) - miu(:, j_miu)) *...
-                       (obs(:, t) - miu(:, j_miu))';
-                end
-                sigmas1(i_s1:i_s2, j_s1:j_s2) = sigmas1(i_s1:i_s2, j_s1:j_s2) /...
-                 sum(xi(i_xi, :));
-            end
-        end        
-        sigmas = sigmas1; % ???
+%         % sigma*
+%         sigmas1 = zeros(M*D, N*D);
+%         for s = 1:N
+%             for k = 1:M
+%                 [i_s1, j_s1] = ij(s, k, 1, 1, D, D);
+%                 [i_s2, j_s2] = ij(s, k, D, D, D, D);
+%                 [i_xi, j_xi] = ij(t, s, 1, k, 1, M);
+%                 [aux, j_miu] = ij(s, 1, k, 1, M, D);
+%                 % sigmas((k - 1) * D  + 1: k * D, (s - 1) * D + 1 : s * D) = sigma;
+%                 for t = 1:T
+%                     sigmas1(i_s1:i_s2, j_s1:j_s2) = sigmas1(i_s1:i_s2, j_s1:j_s2) +...
+%                      xi(i_xi, t) *...
+%                       (obs(:, t) - miu(:, j_miu)) *...
+%                        (obs(:, t) - miu(:, j_miu))';
+%                 end
+%                 sigmas1(i_s1:i_s2, j_s1:j_s2) = sigmas1(i_s1:i_s2, j_s1:j_s2) /...
+%                  sum(xi(i_xi, :));
+%             end
+%         end        
+%         sigmas = sigmas1; % ???
 
 
         % Q pt control - tre sa creasca (o sa fie negative)
@@ -102,7 +100,7 @@ function [ a, miu, sigmas, c, Qv ] = BaumWelch( a, miu, sigma, c, pi, obs )
         for i = 1:N
             for j = 1:N
                 for t = 1:T
-                    Qam(i, j, t) = gama(i, j, t); %* log(a(i, j)); % this is ln
+                    Qam(i, j, t) = gama(i, j, t) * log(a(i, j)); % this is ln
                 end
             end
         end
