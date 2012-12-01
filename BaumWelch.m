@@ -30,29 +30,29 @@ function [ a, miu, sigmas, c, Qv ] = BaumWelch( a, miu, sigma, c, pi, obs )
 
         % IN PROGRESS: check all indeces again
 
-        % a*
-        for i = 1:N
-            for j = 1:N
-                a(i, j) = sum(gama(i, j, :)) / sum(sum(gama(i, :, :)));
-            end
-        end
-        
-        % question: what about pi? 
-        % daca in rest il folosim ca parte din a, cu o noua stare initiala.
-        % aici ar trebui si el actualizat, nu?
-
-        % c*
-        for j = 1:N
-            for k = 1:M
-                [i_xi1, aux] = ij(1, j, 1, k, 1, M);
-                [i_xi2, aux] = ij(1, j, 1, 1, 1, M);
-                [i_xi3, aux] = ij(1, j, 1, M, 1, M);
-                %c(j, k) = sum(xi((j - 1) * M + k, :)) /...
-                %sum(sum(xi((j - 1) * M + 1 : j * M, :)));
-                c(j, k) = sum(xi(i_xi1, :)) /...
-                 sum(sum(xi(i_xi2:i_xi3, :))); % xi for all t and all components of state j
-            end
-        end    
+%         % a*
+%         for i = 1:N
+%             for j = 1:N
+%                 a(i, j) = sum(gama(i, j, :)) / sum(sum(gama(i, :, :)));
+%             end
+%         end
+%         
+%         % question: what about pi? 
+%         % daca in rest il folosim ca parte din a, cu o noua stare initiala.
+%         % aici ar trebui si el actualizat, nu?
+% 
+%         % c*
+%         for j = 1:N
+%             for k = 1:M
+%                 [i_xi1, aux] = ij(1, j, 1, k, 1, M);
+%                 [i_xi2, aux] = ij(1, j, 1, 1, 1, M);
+%                 [i_xi3, aux] = ij(1, j, 1, M, 1, M);
+%                 %c(j, k) = sum(xi((j - 1) * M + k, :)) /...
+%                 %sum(sum(xi((j - 1) * M + 1 : j * M, :)));
+%                 c(j, k) = sum(xi(i_xi1, :)) /...
+%                  sum(sum(xi(i_xi2:i_xi3, :))); % xi for all t and all components of state j
+%             end
+%         end    
 
 %         % miu*
 %         miu1 = zeros(2, N*M);
@@ -110,9 +110,9 @@ function [ a, miu, sigmas, c, Qv ] = BaumWelch( a, miu, sigma, c, pi, obs )
         Qbm = zeros(N, T);
         for s = 1:N
             for k = 1:M
-                [i_xi, j_xi] = ij(t, s, 1, k, 1, M);
-                [i_b, j_b] = ij(t, s, 1, k, 1, M); % same??
                 for t = 1:T
+                    [i_xi, j_xi] = ij(t, s, 1, k, 1, M);
+                    [i_b, j_b] = ij(t, s, 1, k, 1, M); % same??
                     Qbm(i_xi, t) = xi(i_xi, t) * log(b_c(i_b, t));
                 end
             end
