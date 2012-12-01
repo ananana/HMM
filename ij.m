@@ -19,7 +19,7 @@ function[i, j] = ij (h_block, v_block, h_index, v_index, h_max, v_max)
 	%			  h_index = v_index = dimension (usually used as block (:,:))
 	%		  ->  like so: 
 	%					[i_s1, j_s1] = ij(s, k, 1, 1, D, D);
-%                 		[i_s2, j_s2] = ij(s, k, D, D, D, D);
+	%                 	[i_s2, j_s2] = ij(s, k, D, D, D, D);
 	% for miu: v_max = D (dimension of random variable)  ?? / 1
 	%		   h_max = M (number of components)
 	%		   v_block = 1 (only one block vertically always)

@@ -25,7 +25,7 @@ for s=1:N
             [aux, j_miu] = ij(s, 1, k, 1, M, D);
             sigma = sigmas(i_s1:i_s2, j_s1:j_s2);
 
-            b(s,t) = b(s,t) + c(s,k) * mult_norm(obs(t),...
+            b(s,t) = b(s,t) + c(s,k) * mult_norm(obs(:, t),...
             miu(:,j_miu), sigma); % aici era n nu M, dar tre sa fie M! nu?
         end
     end
