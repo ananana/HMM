@@ -54,24 +54,24 @@ function [ a, miu, sigmas, c, Qv ] = BaumWelch( a, miu, sigma, c, pi, obs )
             end
         end    
 
-        % miu*
-        miu1 = zeros(2, N*M);
-        for s = 1:N
-            for k = 1:M
-                % miu((s - 1) * M + k, :) = zeros(1, N*M);
-                [aux, j_miu] = ij(s, 1, k, 1, M, D);
-                for t = 1:T
-                    [i_xi, j_xi] = ij(t, s, 1, k, 1, M);
-                    %(xi(i_xi, j_xi) * obs(:, t));
-                      miu1(:, j_miu) = miu1(:, j_miu) + (xi(i_xi, j_xi) * obs(:, t));
-                end
-                % miu1(:, j_miu);
-                miu1(:, j_miu) = miu1(:, j_miu) / sum(xi(i_xi, :));
-                % sum(xi(i_xi, :));
-            end
-        end
-        miu = miu1; %??
-
+%         % miu*
+%         miu1 = zeros(2, N*M);
+%         for s = 1:N
+%             for k = 1:M
+%                 % miu((s - 1) * M + k, :) = zeros(1, N*M);
+%                 [aux, j_miu] = ij(s, 1, k, 1, M, D);
+%                 for t = 1:T
+%                     [i_xi, j_xi] = ij(t, s, 1, k, 1, M);
+%                     %(xi(i_xi, j_xi) * obs(:, t));
+%                       miu1(:, j_miu) = miu1(:, j_miu) + (xi(i_xi, j_xi) * obs(:, t));
+%                 end
+%                 % miu1(:, j_miu);
+%                 miu1(:, j_miu) = miu1(:, j_miu) / sum(xi(i_xi, :));
+%                 % sum(xi(i_xi, :));
+%             end
+%         end
+%         miu = miu1; %??
+% 
 %         % sigma*
 %         sigmas1 = zeros(M*D, N*D);
 %         for s = 1:N
