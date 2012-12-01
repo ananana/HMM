@@ -5,13 +5,14 @@ sigma2 = [2 1; 1 3];
 
 c = [0.2 0.8; 0.5 0.5; 0.7 0.3];%; 0.2 0.8; 0.1 0.9];
 
-%miu = [2 -1 1 0 0  2 3 1 4 5;       1  1 0 1 2 -2 1 3 4 5];
-miu = rand(2, 10) * 10;
-[a, pi] = random_model(3);
+miu = [2 -1 1 0 0  2;       1  1 0 1 2 -2];
+%miu = rand(2, 6) * 10;
+%[a, pi] = random_model(3);
+a = [0.1 0.2 0.7; 0.5 0.3 0.3; 0.9 0.05 0.05];
 
 [a2, pi2] = random_model(3);
 % miu2 = ones(2, 10) * 5;
-miu2 = miu + rand(2, 10) * 3 * (rand() - 0.5);
+miu2 = miu + rand(2, 6) * 3 * (rand() - 0.5);
 sigma2 = [2 1; 1 3];
 sigma2=sigma;
 sigmas2 = sigma_to_sigmas(sigma2, 3, 2, 2);
