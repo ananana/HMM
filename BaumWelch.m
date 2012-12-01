@@ -100,7 +100,7 @@ function [ a, miu, sigmas, c, Qv ] = BaumWelch( a, miu, sigma, c, pi, obs )
         for i = 1:N
             for j = 1:N
                 for t = 1:T
-                    Qam(i, j, t) = gama(i, j, t) * log(a(i, j)); % this is ln
+                    Qam(i, j, t) = gama(i, j, t) * log2(a(i, j)); % this is ln
                 end
             end
         end
@@ -113,7 +113,7 @@ function [ a, miu, sigmas, c, Qv ] = BaumWelch( a, miu, sigma, c, pi, obs )
                 for t = 1:T
                     [i_xi, j_xi] = ij(t, s, 1, k, 1, M);
                     [i_b, j_b] = ij(t, s, 1, k, 1, M); % same??
-                    Qbm(i_xi, t) = xi(i_xi, t) * log(b_c(i_b, t));
+                    Qbm(i_xi, t) = xi(i_xi, t) * log2(b_c(i_b, t));
                 end
             end
         end
@@ -125,7 +125,7 @@ function [ a, miu, sigmas, c, Qv ] = BaumWelch( a, miu, sigma, c, pi, obs )
             for k = 1:M
                 [i_xi, j_xi] = ij(t, s, 1, k, 1, M);  % 1 si k erau invers
                 for t = 1:T
-                    Qcm(i_xi, t) = xi(i_xi, t) * log(c(s, k));
+                    Qcm(i_xi, t) = xi(i_xi, t) * log2(c(s, k));
                 end
             end
         end
