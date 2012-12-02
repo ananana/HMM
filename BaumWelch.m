@@ -18,9 +18,9 @@ function [ a, miu, sigmas, c, Qv ] = BaumWelch( a, miu, sigma, c, pi, obs )
         % b component-wise
         b_c = b_cont_comp( obs, miu, sigmas, c );
         % alfa
-        alfa = alfaf(obs, pi, a, b );
+        alfa = alfaf_norm(obs, pi, a, b );
         % beta
-    	Beta = betaf( obs, a, b );
+    	Beta = betaf_norm( obs, a, b );
         % xi
         xi = xif( obs, pi, a, miu, sigmas, b_c, c, alfa, Beta );
         % sum(sum(xi)) % = T, test ok
@@ -54,24 +54,24 @@ function [ a, miu, sigmas, c, Qv ] = BaumWelch( a, miu, sigma, c, pi, obs )
             end
         end    
 
-%         % miu*
-%         miu1 = zeros(2, N*M);
-%         for s = 1:N
-%             for k = 1:M
-%                 % miu((s - 1) * M + k, :) = zeros(1, N*M);
-%                 [aux, j_miu] = ij(s, 1, k, 1, M, D);
-%                 for t = 1:T
-%                     [i_xi, j_xi] = ij(t, s, 1, k, 1, M);
-%                     %(xi(i_xi, j_xi) * obs(:, t));
-%                       miu1(:, j_miu) = miu1(:, j_miu) + (xi(i_xi, j_xi) * obs(:, t));
-%                 end
-%                 % miu1(:, j_miu);
-%                 miu1(:, j_miu) = miu1(:, j_miu) / sum(xi(i_xi, :));
-%                 % sum(xi(i_xi, :));
-%             end
-%         end
-%         miu = miu1; %??
-% 
+        % miu*
+        miu1 = zeros(2, N*M);
+        for s = 1:N
+            for k = 1:M
+                % miu((s - 1) * M + k, :) = zeros(1, N*M);
+                [aux, j_miu] = ij(s, 1, k, 1, M, D);
+                for t = 1:T
+                    [i_xi, j_xi] = ij(t, s, 1, k, 1, M);
+                    %(xi(i_xi, j_xi) * obs(:, t));
+                      miu1(:, j_miu) = miu1(:, j_miu) + (xi(i_xi, j_xi) * obs(:, t));
+                end
+                % miu1(:, j_miu);
+                miu1(:, j_miu) = miu1(:, j_miu) / sum(xi(i_xi, :));
+                % sum(xi(i_xi, :));
+            end
+        end
+        miu = miu1; %??
+
 %         % sigma*
 %         sigmas1 = zeros(M*D, N*D);
 %         for s = 1:N
@@ -136,7 +136,7 @@ function [ a, miu, sigmas, c, Qv ] = BaumWelch( a, miu, sigma, c, pi, obs )
 
     end
 
-   % plot(1:iterations, Qv);
+   plot(1:iterations, Qv);
    
 
 end
