@@ -97,29 +97,31 @@ function [ a, miu, sigmas, c, Qv ] = BaumWelch( a, miu, sigma, c, pi, obs )
 
 
         % Q pt control - tre sa creasca (o sa fie negative)
-        % Qa has the format of gama
-        Qam = zeros(N, N, T);
-        for i = 1:N
-            for j = 1:N
-                for t = 1:T
-                    Qam(i, j, t) = gama(i, j, t) * log2(a(i, j)); % this is ln
-                end
-            end
-        end
-        Qa = sum(sum(sum(Qam)));
+        % Qam has the format of gama
+%        Qam = zeros(N, N, T);
+%         for i = 1:N
+%             for j = 1:N
+%                 for t = 1:T
+%                     Qam(i, j, t) = gama(i, j, t) * log(a(i, j)); % this is ln
+%                 end
+%             end
+%         end
+%         Qa = sum(sum(sum(Qam)));
+        Qa = sum(sum(sum(gama,3) .* log(a)));
 
-        % Qb has the format of xi
-        Qbm = zeros(N, T);
-        for s = 1:N
-            for k = 1:M
-                for t = 1:T
-                    [i_xi, j_xi] = ij(t, s, 1, k, 1, M);
-                    [i_b, j_b] = ij(t, s, 1, k, 1, M); % same??
-                    Qbm(i_xi, t) = xi(i_xi, t) * log2(b_c(i_b, t));
-                end
-            end
-        end
-        Qb = sum(sum(Qbm));
+        % Qbm has the format of xi
+%         Qbm = zeros(N, T);
+%         for s = 1:N
+%             for k = 1:M
+%                 for t = 1:T
+%                     [i_xi, j_xi] = ij(t, s, 1, k, 1, M);
+%                     [i_b, j_b] = ij(t, s, 1, k, 1, M); % same??
+%                     Qbm(i_xi, t) = xi(i_xi, t) * log(b_c(i_b, t));
+%                 end
+%             end
+%         end
+%         Qb = sum(sum(Qbm));
+        Qb = sum(sum(xi .* log(b_c)))
     
         % Qc has the format of xi
         Qcm = zeros(N*M, T);
@@ -132,6 +134,7 @@ function [ a, miu, sigmas, c, Qv ] = BaumWelch( a, miu, sigma, c, pi, obs )
             end
         end
         Qc = sum(sum(Qcm));
+        
         Q = Qa + Qb + Qc;
         Qv = [Qv Q];
 
