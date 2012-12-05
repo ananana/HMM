@@ -18,9 +18,9 @@ function [ a, miu, sigmas, c, Qv ] = BaumWelch( a, miu, sigma, c, pi, obs )
         % b component-wise
         b_c = b_cont_comp( obs, miu, sigmas, c );
         % alfa
-        alfa = alfaf_norm(obs, pi, a, b );
+        alfa = alfaf(obs, pi, a, b );
         % beta
-    	Beta = betaf_norm( obs, a, b );
+    	Beta = betaf( obs, a, b );
         % xi
         xi = xif( obs, pi, a, miu, sigmas, b_c, c, alfa, Beta );
         % sum(sum(xi)) % = T, test ok
@@ -55,7 +55,7 @@ function [ a, miu, sigmas, c, Qv ] = BaumWelch( a, miu, sigma, c, pi, obs )
         end    
 
         % miu*
-        miu1 = zeros(2, N*M);
+        miu1 = zeros(D, N*M);
         for s = 1:N
             for k = 1:M
                 % miu((s - 1) * M + k, :) = zeros(1, N*M);
@@ -93,6 +93,7 @@ function [ a, miu, sigmas, c, Qv ] = BaumWelch( a, miu, sigma, c, pi, obs )
 %             end
 %         end        
 %         sigmas = sigmas1; % ???
+%         sigmas
 
 
         % Q pt control - tre sa creasca (o sa fie negative)

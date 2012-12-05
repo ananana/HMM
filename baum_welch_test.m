@@ -46,7 +46,13 @@ Qv
 %   'adj_mu' - if 0, do not change mu [1]
 %   'adj_Sigma' - if 0, do not change Sigma [1]
 
+[B, B2] = mixgauss_prob(obs, mu_them, sgm_them, c_them);
+[alpha, beta, gamma, loglik, xi_summed, gamma2] = fwdback(pi,...
+   a_them, b, 'mixmat', c_them, 'obslik2', B2);
+
 [LL, prior1, transmat1, mu1, Sigma1, mixmat1] =...
 mhmm_em(obs, pi, a_them, mu_them, sgm_them, c_them,...
 'adj_prior', 0, 'adj_Sigma', 0,...
 'adj_mu', 1, 'adj_mix', cu_c, 'adj_trans', cu_a);
+
+% plot(1:10,LL);
