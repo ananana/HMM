@@ -129,7 +129,7 @@ function [ a, miu, sigmas, c, Qv ] = BaumWelch( a, miu, sigma, c, pi, obs )
             for k = 1:M 
                 for t = 1:T
                     [i_xi, j_xi] = ij(t, s, 1, k, 1, M);
-                    Qcm(i_xi, t) = xi(i_xi, t) * log2(c(s, k));
+                    Qcm(i_xi, t) = xi(i_xi, t) * log(c(s, k));
                 end
             end
         end
