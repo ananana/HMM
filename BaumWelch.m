@@ -1,5 +1,5 @@
-function [ a, miu, sigmas, c, Qv ] = BaumWelch( a, miu, sigma, c, pi, obs )
-    iterations = 10;
+function [ a, miu, sigmas, c, Qv ] = BaumWelch( a, miu, sigma, c, pi, obs, iterations )
+    % iterations = 5;
 
     N = length(pi); % nr of states
     M = size(c,2); % nr of mixing components
@@ -72,28 +72,30 @@ function [ a, miu, sigmas, c, Qv ] = BaumWelch( a, miu, sigma, c, pi, obs )
         end
         miu = miu1; %??
 
-%         % sigma*
-%         sigmas1 = zeros(M*D, N*D);
-%         for s = 1:N
-%             for k = 1:M
-%                 [i_s1, j_s1] = ij(s, k, 1, 1, D, D);
-%                 [i_s2, j_s2] = ij(s, k, D, D, D, D);
-%                 
-%                 [aux, j_miu] = ij(s, 1, k, 1, M, D);
-%                 % sigmas((k - 1) * D  + 1: k * D, (s - 1) * D + 1 : s * D) = sigma;
-%                 for t = 1:T
-%                   [i_xi, j_xi] = ij(t, s, 1, k, 1, M);
+        % sigma*
+        sigmas1 = zeros(M*D, N*D);
+        for s = 1:N
+            for k = 1:M
+                [i_s1, j_s1] = ij(s, k, 1, 1, D, D);
+                [i_s2, j_s2] = ij(s, k, D, D, D, D);
+                
+                [aux, j_miu] = ij(s, 1, k, 1, M, D);
+                % sigmas((k - 1) * D  + 1: k * D, (s - 1) * D + 1 : s * D) = sigma;
+                for t = 1:T
+                  [i_xi, j_xi] = ij(t, s, 1, k, 1, M);
+                    sigmas1(i_s1:i_s2, j_s1:j_s2) = sigmas1(i_s1:i_s2, j_s1:j_s2) +...
+                     xi(i_xi, j_xi) *...
+                      ((obs(:, t) - miu(:, j_miu)) * ((obs(:, t) - miu(:, j_miu))'));
 %                     sigmas1(i_s1:i_s2, j_s1:j_s2) = sigmas1(i_s1:i_s2, j_s1:j_s2) +...
-%                      xi(i_xi, t) *...
-%                       (obs(:, t) - miu(:, j_miu)) *...
-%                        (obs(:, t) - miu(:, j_miu))';
-%                 end
-%                 sigmas1(i_s1:i_s2, j_s1:j_s2) = sigmas1(i_s1:i_s2, j_s1:j_s2) /...
-%                  sum(xi(i_xi, :));
-%             end
-%         end        
-%         sigmas = sigmas1; % ???
-%         sigmas
+%                         xi(i_xi, j_xi) * (obs(:,t)*obs(:,t)' - obs(:,t) * miu(:,j_miu)' - miu(:,j_miu)*obs(:,t)' + miu(:,j_miu)*miu(:,j_miu)');
+                end
+                sigmas1(i_s1:i_s2, j_s1:j_s2) = sigmas1(i_s1:i_s2, j_s1:j_s2) /...
+                 sum(xi(i_xi, :));
+            end
+        end        
+        sigmas = sigmas1; % ???
+        %sigmas
+        %xi
 
 
         % Q pt control - tre sa creasca (o sa fie negative)
@@ -121,7 +123,7 @@ function [ a, miu, sigmas, c, Qv ] = BaumWelch( a, miu, sigma, c, pi, obs )
 %             end
 %         end
 %         Qb = sum(sum(Qbm));
-        Qb = sum(sum(xi .* log(b_c)))
+        Qb = sum(sum(xi .* log(b_c)));
     
         % Qc has the format of xi
         Qcm = zeros(N*M, T);

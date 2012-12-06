@@ -4,7 +4,7 @@ function [ f ] = mult_norm( x, miu, sigma )
 % sigma - covariance = square matrix
 
 n = length(x);
-f = 1 / ((2*pi)^(n/2)*det(sigma)^(1/2)) *...
+f = 1 / ((2*pi)^(n/2)*sqrt(abs(det(sigma)))) *...
  exp( -1/2 * (x - miu)' * inv(sigma) * (x - miu) );
 
 end

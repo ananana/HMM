@@ -33,7 +33,9 @@ if (cu_c == 0)
     c2 = ones(N,1);
 end;
 
-[ a1, miu1, sigmas1, c1, Qv] = BaumWelch(a2, miu2, sigma2, c2, pi, obs);
+iterations = 10;
+
+[ a1, miu1, sigmas1, c1, Qv] = BaumWelch(a2, miu2, sigma2, c2, pi, obs, iterations);
 Qv
 
 %  'max_iter' - max number of EM iterations [10]
@@ -52,7 +54,10 @@ Qv
 
 [LL, prior1, transmat1, mu1, Sigma1, mixmat1] =...
 mhmm_em(obs, pi, a_them, mu_them, sgm_them, c_them,...
-'adj_prior', 0, 'adj_Sigma', 0,...
-'adj_mu', 1, 'adj_mix', cu_c, 'adj_trans', cu_a);
+'adj_prior', 0, 'adj_Sigma', 1,...
+'adj_mu', 1, 'adj_mix', cu_c, 'adj_trans', cu_a, 'max_iter', iterations);
 
 % plot(1:10,LL);
+
+Sigma1
+sigmas1
