@@ -22,7 +22,7 @@ miu2 = miu + rand(2, 6) * 3 * (rand() - 0.5);
 sigmas2 = sigma_to_sigmas(sigma2, 3, 2, 2);
 c2 = [0.3 0.7; 0.3 0.7; 0.5 0.5];% 0.4 0.6; 0.6 0.4];
 
-obs = generate_obs_cont(100, pi, a, miu, sigma, c);
+obs = generate_obs_cont(100, pi, a, miu, sigma, c); % INCREASE NUMBER OF OBSERVATIONS IF PROBLEMS WITH SIGMA BECOMING SINGULAR
 b = b_cont( obs, miu2, sigmas2, c2 );
 % b_c = b_cont_comp( obs, miu2, sigmas2, c2 );
 % %b = b_cont( obs, miu2, sigmas2, c2 );
