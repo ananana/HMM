@@ -12,6 +12,7 @@ function [ a, miu, sigmas, c, Qv ] = BaumWelch( a, miu, sigma, c, pi, obs, itera
     % sigmas = [[sigma] x M x N] => M by N sigma
     sigmas = sigma_to_sigmas(sigma, N, M, D);
 
+
     for it=1:iterations
         % b
         b = b_cont( obs, miu, sigmas, c );
