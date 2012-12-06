@@ -57,7 +57,9 @@ mhmm_em(obs, pi, a_them, mu_them, sgm_them, c_them,...
 'adj_prior', 0, 'adj_Sigma', 1,...
 'adj_mu', 1, 'adj_mix', cu_c, 'adj_trans', cu_a, 'max_iter', iterations);
 
-% plot(1:10,LL);
+hold on
+plot(1:iterations,LL);
+hold off
 
-Sigma1
-sigmas1
+% Sigma1
+% sigmas1
