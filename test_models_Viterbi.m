@@ -2,8 +2,10 @@ function [ prob ] = test_models_Viterbi( nr_models, T )
 
 %nr_models = 10;
 obs_size = 2;
+nr_states = 5;
 
-[a, b, pi] = random_model();
+[a, pi] = random_model(nr_states);
+b = b_discrete(obs_size, nr_states);
 
 %pi1 = [1/2 1/2 0];
 %a1 = [1/3 1/3 1/3; 0 1/2 1/2; 1/2 1/2 0];
@@ -14,7 +16,8 @@ obs = generate_obs(T, a, b, pi);
 prob(1) = p;
 
 for i = 2:nr_models
-    [ra, rb, rpi] = random_model();
+    [ra, rpi] = random_model(nr_states);
+    rb = b_discrete(obs_size, nr_states);
 	[p, s] = Viterbi(obs, ra, rb, rpi);
 	prob(i) = p;
 end 

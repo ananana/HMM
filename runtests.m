@@ -30,7 +30,7 @@ probab2=nr_2/nr_t
 over1_1=probab1*M
 over1_2=probab2*M
 
-plot(sum_prob1, "-.ob", "LineWidth", 2, "MarkerSize", 15)
+plot(sum_prob1, '-.ob', 'LineWidth', 2, 'MarkerSize', 15)
 hold on
-plot(sum_prob2, "-.or", "LineWidth", 2, "MarkerSize", 15)
+plot(sum_prob2, '-.or', 'LineWidth', 2, 'MarkerSize', 15)
 hold off
